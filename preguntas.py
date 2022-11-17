@@ -23,6 +23,7 @@ def pregunta_01():
     """
     f = open("data.csv", "r")
     nums = [int(line[2]) for line in f]
+    f.close()
     return sum(nums)
 
 def pregunta_02():
@@ -40,8 +41,12 @@ def pregunta_02():
     ]
 
     """
-    return
+    f = open("data.csv", "r")
+    letras = [line[0] for line in f]
+    f.close()
+    respuesta = sorted((letra, letras.count(letra)) for letra in set(letras))
 
+    return respuesta
 
 def pregunta_03():
     """
@@ -58,8 +63,18 @@ def pregunta_03():
     ]
 
     """
-    return
+    f = open("data.csv", "r")
+    valores = [(line[0], line[2]) for line in f]
+    f.close()
+    resultado = {}
+    print(valores)
+    for letra, numero in valores:
+        if letra not in resultado:
+            resultado[letra] = int(numero)
+            continue
+        resultado[letra] += int(numero)
 
+    return sorted((key, value) for key, value in resultado.items())
 
 def pregunta_04():
     """
@@ -83,8 +98,12 @@ def pregunta_04():
     ]
 
     """
-    return
+    f = open("data.csv", "r")
+    months = [line[9:11] for line in f]
+    f.close()
+    resultado = sorted((month, months.count(month)) for month in set(months))
 
+    return resultado
 
 def pregunta_05():
     """
@@ -101,8 +120,19 @@ def pregunta_05():
     ]
 
     """
-    return
-
+    f = open("data.csv", "r")
+    entradas = [(line[0], line[2]) for line in f]
+    f.close()
+    letras = set([entrada[0] for entrada in entradas])
+    resultado = []
+    for letra in letras:
+        entradasLetra = []
+        for entrada in entradas:
+            if entrada[0] == letra:
+                entradasLetra.append(entrada[1])
+            [entrada if entrada[0] == letra else () for entrada in entradas]
+        resultado.append((letra, max(entradasLetra), min(entradasLetra)))
+    return sorted(resultado)
 
 def pregunta_06():
     """
@@ -126,8 +156,13 @@ def pregunta_06():
     ]
 
     """
+    f = open("data.csv", "r")
+    for line in f:
+        print(line.split(","))
+    entradasDict = []
     return
 
+print(pregunta_06())
 
 def pregunta_07():
     """
