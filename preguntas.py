@@ -121,7 +121,7 @@ def pregunta_05():
 
     """
     f = open("data.csv", "r")
-    entradas = [(line[0], line[2]) for line in f]
+    entradas = [(line[0], int(line[2])) for line in f]
     f.close()
     letras = set([entrada[0] for entrada in entradas])
     resultado = []
