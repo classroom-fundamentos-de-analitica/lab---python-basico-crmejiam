@@ -130,7 +130,6 @@ def pregunta_05():
         for entrada in entradas:
             if entrada[0] == letra:
                 entradasLetra.append(entrada[1])
-            [entrada if entrada[0] == letra else () for entrada in entradas]
         resultado.append((letra, max(entradasLetra), min(entradasLetra)))
     return sorted(resultado)
 
@@ -162,7 +161,7 @@ def pregunta_06():
     entradasDict = []
     return
 
-print(pregunta_06())
+#print(pregunta_06())
 
 def pregunta_07():
     """
