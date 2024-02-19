@@ -21,8 +21,10 @@ def pregunta_01():
     214
 
     """
-    return
-
+    f = open("data.csv", "r")
+    nums = [int(line[2]) for line in f]
+    f.close()
+    return sum(nums)
 
 def pregunta_02():
     """
@@ -39,8 +41,12 @@ def pregunta_02():
     ]
 
     """
-    return
+    f = open("data.csv", "r")
+    letras = [line[0] for line in f]
+    f.close()
+    respuesta = sorted((letra, letras.count(letra)) for letra in set(letras))
 
+    return respuesta
 
 def pregunta_03():
     """
@@ -57,8 +63,18 @@ def pregunta_03():
     ]
 
     """
-    return
+    f = open("data.csv", "r")
+    valores = [(line[0], line[2]) for line in f]
+    f.close()
+    resultado = {}
+    print(valores)
+    for letra, numero in valores:
+        if letra not in resultado:
+            resultado[letra] = int(numero)
+            continue
+        resultado[letra] += int(numero)
 
+    return sorted((key, value) for key, value in resultado.items())
 
 def pregunta_04():
     """
@@ -82,8 +98,12 @@ def pregunta_04():
     ]
 
     """
-    return
+    f = open("data.csv", "r")
+    months = [line[9:11] for line in f]
+    f.close()
+    resultado = sorted((month, months.count(month)) for month in set(months))
 
+    return resultado
 
 def pregunta_05():
     """
@@ -100,8 +120,18 @@ def pregunta_05():
     ]
 
     """
-    return
-
+    f = open("data.csv", "r")
+    entradas = [(line[0], int(line[2])) for line in f]
+    f.close()
+    letras = set([entrada[0] for entrada in entradas])
+    resultado = []
+    for letra in letras:
+        entradasLetra = []
+        for entrada in entradas:
+            if entrada[0] == letra:
+                entradasLetra.append(entrada[1])
+        resultado.append((letra, max(entradasLetra), min(entradasLetra)))
+    return sorted(resultado)
 
 def pregunta_06():
     """
@@ -125,8 +155,29 @@ def pregunta_06():
     ]
 
     """
-    return
-
+    f = open("data.csv", "r")
+    entradas = [line.split(",")[1:] for line in f]
+    f.close()
+    entradasDict = []
+    for lista in entradas:
+        for entrada in lista:
+            if len(entrada) > 1:
+                sublist = entrada.strip().split("\t")
+                if len(sublist) > 1:
+                    entradaDict = (sublist[1][:3], int(sublist[1][4:]))
+                    entradasDict.append(entradaDict)
+                    continue
+                entradaDict = (sublist[0][:3], int(sublist[0][4:]))
+                entradasDict.append(entradaDict)
+    keys = set([entry[0] for entry in entradasDict])
+    resultado = []
+    for key in keys:
+        entradasKey = []
+        for entry in entradasDict:
+            if entry[0] == key:
+                entradasKey.append(entry[1])
+        resultado.append((key, min(entradasKey), max(entradasKey)))
+    return sorted(resultado)
 
 def pregunta_07():
     """
@@ -149,8 +200,14 @@ def pregunta_07():
     ]
 
     """
-    return
-
+    f = open("data.csv", "r")
+    entradas = [(int(line[2]), line[0]) for line in f]
+    f.close()
+    nums = set([tupla[0] for tupla in entradas])
+    respuesta = []
+    for num in nums:
+        respuesta.append((num, [tupla[1] for tupla in entradas if tupla[0] == num]))
+    return sorted(respuesta)
 
 def pregunta_08():
     """
@@ -174,8 +231,9 @@ def pregunta_08():
     ]
 
     """
-    return
-
+    rta7 = pregunta_07()
+    respuesta = [(tupla[0], sorted(list(set(tupla[1])))) for tupla in rta7]
+    return respuesta
 
 def pregunta_09():
     """
@@ -197,8 +255,21 @@ def pregunta_09():
     }
 
     """
-    return
+    f = open("data.csv", "r")
+    entradas = [line.split(",")[1:] for line in f]
+    f.close()
+    entradasDict = []
+    for lista in entradas:
+        for entrada in lista:
+            if len(entrada) > 1:
+                sublist = entrada.strip().split("\t")
+                if len(sublist) > 1:
+                    entradasDict.append(sublist[1][:3])
+                    continue
+                entradasDict.append(sublist[0][:3])
+    respuesta = {key:entradasDict.count(key) for key in entradasDict}
 
+    return respuesta
 
 def pregunta_10():
     """
@@ -218,8 +289,17 @@ def pregunta_10():
 
 
     """
-    return
+    f = open("data.csv", "r")
+    entradas = [line.split("\t") for line in f]
+    f.close()
+    resultado = []
+    for entrada in entradas:
+        letra = entrada[0]
+        columna4 = entrada[3].split(",")
+        columna5 = ",".join(entrada[4:]).split(",")
+        resultado.append((letra, len(columna4), len(columna5)))
 
+    return resultado
 
 def pregunta_11():
     """
@@ -239,8 +319,14 @@ def pregunta_11():
 
 
     """
-    return
+    f = open("data.csv", "r")
+    entradas = [line.split("\t") for line in f]
+    f.close()
+    entradas = [(letra, int(entrada[1])) for entrada in entradas for letra in entrada[3].split(",")]
+    letras = set([entrada[0] for entrada in entradas])
+    resultado = {letra: sum([entrada[1] for entrada in entradas if entrada[0] == letra]) for letra in letras}
 
+    return resultado
 
 def pregunta_12():
     """
@@ -257,4 +343,11 @@ def pregunta_12():
     }
 
     """
-    return
+    f = open("data.csv", "r")
+    entradas = [line.split("\t") for line in f]
+    f.close()
+    entradas = [(entrada[0], sum([int(i[4:]) for i in ",".join(entrada[4:]).strip().split(",")])) for entrada in entradas]
+    letras = set([entrada[0] for entrada in entradas])
+    respuesta = {letra: sum([entrada[1] for entrada in entradas if entrada[0] == letra]) for letra in letras}
+
+    return respuesta
